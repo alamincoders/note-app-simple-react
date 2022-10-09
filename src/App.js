@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Header from "./components/Header";
 import NotesList from "./components/NotesList";
 import Search from "./components/Search";
 
@@ -7,25 +8,25 @@ const App = () => {
   const [notes, setNotes] = useState([
     {
       id: nanoid(),
-      text: "This is my first note!",
-      date: "15/04/2022",
-    },
-    {
-      id: nanoid(),
-      text: "This is my second note!",
-      date: "10/04/2022",
-    },
-    {
-      id: nanoid(),
-      text: "This is my third note!",
-      date: "16/04/2022",
-    },
-    {
-      id: nanoid(),
-      text: "This is my four note!",
-      date: "19/04/2022",
+      text: "This is my Default note!",
+      date: "22/09/2022",
     },
   ]);
+  const [searchTxt, setSearchTxt] = useState("");
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const savedNotes = localStorage.getItem("react_notes_data");
+    const LatestNotes = JSON.parse(savedNotes);
+    if (LatestNotes) {
+      setNotes(LatestNotes);
+    }
+  }, []);
+
+  useEffect(() => {
+    // storing notes
+    localStorage.setItem("react_notes_data", JSON.stringify(notes));
+  }, [notes]);
 
   const addNote = (text) => {
     const date = new Date();
@@ -43,9 +44,12 @@ const App = () => {
     setNotes(newNotes);
   };
   return (
-    <div className="container">
-      <Search />
-      <NotesList notes={notes} handleAddNote={addNote} deleteNotes={deleteNotes} />
+    <div className={`${darkMode && "dark_mode"}`}>
+      <div className="container">
+        <Header handleToggleDarkMode={setDarkMode} />
+        <Search handleSearchNote={setSearchTxt} />
+        <NotesList notes={notes.filter((note) => note.text.toLowerCase().includes(searchTxt))} handleAddNote={addNote} deleteNotes={deleteNotes} />
+      </div>
     </div>
   );
 };
