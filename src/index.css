@@ -40,8 +40,14 @@ textarea:focus {
   border-radius: 15px;
   padding: 5px 10px;
 }
-.save:hover {
-  background-color: #ededed;
+.delete {
+  background-color: transparent;
+  border: none;
+  border-radius: 15px;
+  padding: 5px 10px;
+}
+.delete:hover {
+  background-color: transparent;
   cursor: pointer;
   transition: 0.5s;
 }
@@ -55,6 +61,7 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  white-space: pre-wrap;
 }
 
 .note_footer {

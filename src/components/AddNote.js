@@ -5,7 +5,9 @@ const AddNote = ({ handleAddNote }) => {
   const characterLimit = 200;
 
   const handleChange = (e) => {
-    setNoteText(e.target.value);
+    if (characterLimit - e.target.value.length >= 0) {
+      setNoteText(e.target.value);
+    }
   };
   const handleSaveClick = () => {
     if (noteText.trim().length > 0) {
@@ -13,6 +15,7 @@ const AddNote = ({ handleAddNote }) => {
       setNoteText("");
     }
   };
+
   return (
     <div className="note new_note">
       <textarea onChange={handleChange} value={noteText} rows="8" cols="10" placeholder="Type to add a note..."></textarea>
